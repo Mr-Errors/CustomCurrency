@@ -615,8 +615,10 @@ command {@Main-Command} [<string>] [<offline player>] [<number>]:
         
         #█▀ █░█ █▀█ █▀█
         #▄█ █▀█ █▄█ █▀▀
-        if arg-1 is "shop" or "Shop":
-            open {-shop} to player
+        set {_status} to yaml value "CustomCurreny-Shop" of "plugins/CustomCurrency/Config.yml"
+        if {_status} is true:
+            if arg-1 is "shop" or "Shop":
+                open {-shop} to player
 
 
 #--------------------------------------------------------------------------------#
