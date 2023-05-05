@@ -7,9 +7,157 @@
 ## ------------------------------------------------------------------------##
 ##                              Author: MrErrors                           ##
 ##                               Version: 1.0.1                            ##
+##                           Discord: LostPanda#7778                       ##
 ## ------------------------------------------------------------------------##
 Verison: 1.0.1
 
 Language: en-lang.yml
 
-Currency-Name: "Beans"
+CustomCurreny-Shop: true
+
+Store-Menu-Items:
+    Player-Balance:
+        Display-Item:
+            Material: player skull
+            Name: "&8● <#1DE682>&l{displayname}"
+            NBT: ''
+            Lore:
+            - <#6A6A6A>Information
+            - ''
+            - '  <#27D2F0>| <#EBEBEB>Balance: <#27D2F0>${placeholder}'
+    Exit-Menu:
+        Display-Item:
+            Material: spruce door
+            Name: "&8● <#FF2626>&lCLOSE MENU"
+            NBT: ''
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - "<#FF2626>&l(!) <#FF2626>Click to close the shop!"
+    Return-Menu:
+        Display-Item:
+            Material: spruce door
+            Name: "&8● <#5BF027>&lMAIN STORE"
+            NBT: ''
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - "<#FF2626>&l(!) <#FF2626>Click to return to the main shop!"
+    Back-Page:
+        Display-Item:
+            Material: gray dye
+            Name: "&8● <#27D2F0>&lPREVIOUS PAGE"
+            NBT: ''
+            Lore: ''
+    Next-Page:
+        Display-Item:
+            Material: gray dye
+            Name: "&8● <#27D2F0>&lNEXT PAGE"
+            NBT: ''
+            Lore: ''
+
+Shop-Lore:
+    Name: "&8● &f{item}"
+    Lore:
+    - <#6A6A6A>Information
+    - ''
+    - '  <#27D2F0>| <#EBEBEB>Buy Price: <#27D2F0>${buy_price}'
+    - ''
+    - "<#1DE682>&l(!) <#1DE682>Click to purchase!"
+
+Buy-Lore:
+    Name: <#5BF027>● Purchase
+    Lore:
+    - <#6A6A6A>Information
+    - ''
+    - "&fPurchase one item"
+    - ''
+    - "<#5BF027>| &fInformation"
+    - '  <#5BF027>● <#EBEBEB>Quantity: <#5BF027>{item_amount}x'
+    - '  <#5BF027>● <#EBEBEB>Price: <#5BF027>${buy_price}'
+    - ''
+    - "<#5BF027>&l(!) <#5BF027>Click to purchase this item!"
+
+Cancel-Lore:
+    Name: <#FF2626>● Cancel Purchase
+    Lore:
+    - <#6A6A6A>Information
+    - ''
+    - "<#5BF027>&l(!) <#5BF027>Click to cancel purchase!"
+
+Shops-Category:
+    Commands:
+        Display-Item:
+            Enabled: true
+            Material: Bookshelf
+            Slot: 13
+            Name: "&8● <#5BF027>&lCommands"
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - '  <#EBEBEB>Open the building blocks shop'
+            - '  <#EBEBEB>to buy the building blocks avilable'
+            - ''
+            - "&eClick to browse category!"
+            NBT: ''
+            Custom-Model-Data: false
+    Ranks:
+        Display-Item:
+            Enabled: true
+            Material: Bookshelf
+            Slot: 14
+            Name: "&8● <#E8E533>&lRanks"
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - '  <#EBEBEB>Open the colored blocks shop'
+            - '  <#EBEBEB>to buy the colored blocks avilable'
+            - ''
+            - "&eClick to browse category!"
+            NBT: ''
+            Custom-Model-Data: false
+    Keys:
+        Display-Item:
+            Enabled: true
+            Material: Bookshelf
+            Slot: 21
+            Name: "&8● <#E8E533>&lKeys"
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - '  <#EBEBEB>Open the colored blocks shop'
+            - '  <#EBEBEB>to buy the colored blocks avilable'
+            - ''
+            - "&eClick to browse category!"
+            NBT: ''
+            Custom-Model-Data: false
+    Claim-Blocks:
+        Display-Item:
+            Enabled: true
+            Material: Bookshelf
+            Slot: 22
+            Name: "&8● <#E8E533>&lClaim Blocks"
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - '  <#EBEBEB>Open the colored blocks shop'
+            - '  <#EBEBEB>to buy the colored blocks avilable'
+            - ''
+            - "&eClick to browse category!"
+            NBT: ''
+            Custom-Model-Data: false
+    Miscellaneous:
+        Display-Item:
+            Enabled: true
+            Material: Bookshelf
+            Slot: 25
+            Name: "&8● <#E8E533>&lMiscellaneous"
+            Lore:
+            - <#6A6A6A>Interactive Item
+            - ''
+            - '  <#EBEBEB>Open the colored blocks shop'
+            - '  <#EBEBEB>to buy the colored blocks avilable'
+            - ''
+            - "&eClick to browse category!"
+            NBT: ''
+            Custom-Model-Data: false
