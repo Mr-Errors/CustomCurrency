@@ -18,7 +18,7 @@ Shop-Category:
                 custom-model-data: false
                 commands:
                 - '/bc hey'
-                - '/bc hey2'
+                - '/give {player} diamond 1'
                 - '/bc hey3'
             2:
                 material: Hay Block
