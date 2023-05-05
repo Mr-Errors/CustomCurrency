@@ -48,6 +48,7 @@ import:
     org.bukkit.configuration.file.FileConfiguration
     org.bukkit.configuration.file.YamlConfiguration
     org.bukkit.configuration.MemorySection
+    dev.lone.itemsadder.api.ItemsAdder
 
 #---------------------------------------------------------#
 #██████╗░███████╗███████╗██╗░░░░░███████╗░█████╗░████████╗#
@@ -341,19 +342,16 @@ function registerShopMenu():
         set {_slot} to yaml value "Shops-Category.%loop-value%.Display-Item.Slot" from "plugins/CustomCurrency/Config.yml"
         set {_name} to TextReturn("Shops-Category.%loop-value%.Display-Item.Name","plugins/CustomCurrency/Config.yml")
         set {_nbt} to yaml value "Shops-Category.%loop-value%.Display-Item.NBT" from "plugins/CustomCurrency/Config.yml"
-        set {_cmd} to yaml value "Shops-Category.%loop-value%.Display-Item.Custom-Model-Data" from "plugins/CustomCurrency/Config.yml"
+        set {_itemadder.item} to yaml value "Shops-Category.%loop-value%.Display-Item.ItemAdder" from "plugins/CustomCurrency/Config.yml"
         if {_material} is "player skull":
             set {_head} to getSkullFromTexture({_nbt})
             set {_lore::*} to yaml list "Shops-Category.%loop-value%.Display-Item.Lore" from "plugins/CustomCurrency/Config.yml"
             set slot {_slot} of {-shop} to {_head} named "%{_name}%" with lore coloured {_lore::*}
         else:
-            if {_cmd} isn't false:
+            if {_itemadder.item} isn't "":
                 set {_mu} to "%{_material}%" in upper snake case
-                set {_m} to Material.getMaterial({_mu})
-                set {_item} to new ItemStack({_m}, 1)
-                set custom model data of {_item} to {_cmd}
+                set {_item} to ItemsAdder.getCustomItem("%{_itemadder.item}%")
                 set {_lore::*} to yaml list "Shops-Category.%loop-value%.Display-Item.Lore" from "plugins/CustomCurrency/Config.yml"
-                broadcast "5"
                 set slot {_slot} of {-shop} to {_item} named "%{_name}%" with lore coloured {_lore::*}
             else:
                 set {_mu} to "%{_material}%" in upper snake case
@@ -405,16 +403,16 @@ function registerShopCategoryPage(category:string, page:string):
         set {_name} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.material" from "plugins/CustomCurrency/Shop-Category.yml"
         set {_slot} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.slot" from "plugins/CustomCurrency/Shop-Category.yml"
         set {_buy} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.buy" from "plugins/CustomCurrency/Shop-Category.yml"
-        set {_cmd} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.custom-model-data" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_itemadder.name} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.itemadder.displayname" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_itemadder.item} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.itemadder.model" from "plugins/CustomCurrency/Shop-Category.yml"
         set {_commands::*} to yaml list "Shop-Category.%{_category}%.%{_page}%.%loop-value%.commands" from "plugins/CustomCurrency/Shop-Category.yml"
 
         set {_mu} to "%{_material}%" in upper snake case 
         set {_m} to Material.getMaterial({_mu})
         if {_m} is set:
-            if {_cmd} isn't false:
-                set {_i} to new ItemStack({_m}, 1)
-                set {_item} to ShopItemMaterial({_i}, {_name}, {_buy})
-                set custom model data of {_item} to {_cmd}
+            if {_itemadder.item} isn't "":
+                set {_i} to ItemsAdder.getCustomItem("%{_itemadder.item}%")
+                set {_item} to ShopItemMaterial({_i}, {_itemadder.name}, {_buy})
                 set slot {_slot} of {-shop::%{_category}%::%{_page}%} to {_item}
             else:
                 set {_i} to new ItemStack({_m}, 1)
@@ -621,8 +619,6 @@ command {@Main-Command} [<string>] [<offline player>] [<number>]:
             open {-shop} to player
 
 
-
-
 #--------------------------------------------------------------------------------#
 #██╗███╗░░██╗██╗░░░██╗███████╗███╗░░██╗████████╗░█████╗░██████╗░██╗░░░██╗░██████╗#
 #██║████╗░██║██║░░░██║██╔════╝████╗░██║╚══██╔══╝██╔══██╗██╔══██╗╚██╗░██╔╝██╔════╝#
@@ -664,6 +660,7 @@ on inventory click:
                             set {_slot} to yaml value "Shop-Category.%loop-value-1%.%loop-value-2%.%loop-value-3%.slot" from "plugins/CustomCurrency/Shop-Category.yml"
                             if {_slot} = {_click}:
                                 set {-%player's uuid%::Commands::*} to yaml list "Shop-Category.%loop-value-1%.%loop-value-2%.%loop-value-3%.commands" from "plugins/CustomCurrency/Shop-Category.yml"
+                                set {-%player's uuid%::ItemName} to yaml value "Shop-Category.%loop-value-1%.%loop-value-2%.%loop-value-3%.itemadder.displayname" from "plugins/CustomCurrency/Shop-Category.yml"
                         clear lore of {_i}
                         registerItemShop({_i}, player, {_buy}, {_sell})
                         open {-BuyanSell::%player's uuid%} to player
@@ -738,7 +735,11 @@ on inventory click:
                         else:
                             set {_text} to "<##44E0A2> &l● {@Currency-Name} Shops &8&l▪ &7You have purchased <##44E0A2>{amount}x&7 of <##44E0A2>{item} &7for <##44E0A2>${price} {@Currency-Name} &7from the shop!"
                             replace "{amount}" with "1" in {_text}
-                            replace "{item}" with "%{_item}%" in {_text}
+                            if {-%player's uuid%::ItemName} isn't "":
+                                set {_name} to {-%player's uuid%::ItemName}
+                                replace "{item}" with "%{_name}%" in {_text}
+                            else:
+                                replace "{item}" with "%{_name}%" in {_text}
                             replace "{price}" with "%{-%player's uuid%::Buy}%" in {_text}
                             remove {-%player's uuid%::Buy} from {_n}
                             set yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml" to {_n}
@@ -757,6 +758,10 @@ on inventory click:
                                         execute console command "%{_c}%"
                                         close player's inventory
                             else:
+                                if {-%player's uuid%::ItemName} isn't "":
+                                    set name of {_item} to {-%player's uuid%::ItemName}
+                                else:
+                                    reset name of {_item}
                                 give {_item} to player
                                 close player's inventory
                             stop
