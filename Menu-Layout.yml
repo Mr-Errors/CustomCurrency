@@ -81,8 +81,14 @@ Buy-Sell-Menu:
         nbt: ''
         slots:
         - 19
+        - 20
+        - 21
         - 28
+        - 29
+        - 30
         - 37
+        - 38
+        - 39
     Item-Placement:
         Slot: 13
     Return-Store: 
