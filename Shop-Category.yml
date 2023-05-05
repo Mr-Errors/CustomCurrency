@@ -1,0 +1,114 @@
+#██████╗░░█████╗░███╗░░██╗██████╗░░█████╗░░██████╗██╗░░██╗░█████╗░██████╗░
+#██╔══██╗██╔══██╗████╗░██║██╔══██╗██╔══██╗██╔════╝██║░░██║██╔══██╗██╔══██╗
+#██████╔╝███████║██╔██╗██║██║░░██║███████║╚█████╗░███████║██║░░██║██████╔╝
+#██╔═══╝░██╔══██║██║╚████║██║░░██║██╔══██║░╚═══██╗██╔══██║██║░░██║██╔═══╝░
+#██║░░░░░██║░░██║██║░╚███║██████╔╝██║░░██║██████╔╝██║░░██║╚█████╔╝██║░░░░░
+#╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░░░░
+#------------------------------------------------------------------------#
+#                             Author: MrErrors                           #
+#                              Version: 1.0.1                            #
+#------------------------------------------------------------------------#
+Shop-Category:
+    Commands:
+        Page-1:
+            1:
+                material: Bookshelf
+                slot: 10
+                buy: 5
+                custom-model-data: false
+                commands:
+                - '/bc hey'
+                - '/bc hey2'
+                - '/bc hey3'
+            2:
+                material: Hay Block
+                slot: 11
+                buy: 10
+                custom-model-data: false
+                commands: ''
+            3:
+                material: Honey Block
+                slot: 12
+                buy: 15
+                custom-model-data: false
+                commands: ''
+    Ranks:
+        Page-1:
+            1:
+                material: Bookshelf
+                slot: 10
+                buy: 119.12
+                custom-model-data: false
+                commands: ''
+            2:
+                material: Hay Block
+                slot: 11
+                buy: 20
+                custom-model-data: false
+                commands: ''
+            3:
+                material: Honey Block
+                slot: 12
+                buy: 33.34
+                custom-model-data: false
+                commands: ''
+    Keys:
+        Page-1:
+            1:
+                material: Bookshelf
+                slot: 10
+                buy: 119.12
+                custom-model-data: false
+                commands: ''
+            2:
+                material: Hay Block
+                slot: 11
+                buy: 20
+                custom-model-data: false
+                commands: ''
+            3:
+                material: Honey Block
+                slot: 12
+                buy: 33.34
+                custom-model-data: false
+                commands: ''
+    Claim-Blocks:
+        Page-1:
+            1:
+                material: Bookshelf
+                slot: 10
+                buy: 119.12
+                custom-model-data: false
+                commands: ''
+            2:
+                material: Hay Block
+                slot: 11
+                buy: 20
+                custom-model-data: false
+                commands: ''
+            3:
+                material: Honey Block
+                slot: 12
+                buy: 33.34
+                custom-model-data: false
+                commands: ''
+    Miscellaneous:
+        Page-1:
+            1:
+                material: Bookshelf
+                slot: 10
+                buy: 119.12
+                custom-model-data: false
+                commands: ''
+            2:
+                material: Hay Block
+                slot: 11
+                buy: 20
+                custom-model-data: false
+                commands: ''
+            3:
+                material: Honey Block
+                slot: 12
+                buy: 33.34
+                custom-model-data: false
+                commands: ''
