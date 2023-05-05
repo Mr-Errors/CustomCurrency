@@ -27,14 +27,15 @@ Shop-Category:
                 itemadder:
                     displayname: "&cNexus Sword"
                     model: "nexusset:nexus_sword"
-                commands: ''
+                commands:
+                - '/bc {player} you suck'
             2:
                 material: Hay Block
                 slot: 11
                 buy: 10
                 itemadder:
-                    displayname: ""
-                    model: ""
+                    displayname: "<#44E0A2>Nexus Staff"
+                    model: "nexusset:nexus_staff"
                 commands: ''
             3:
                 material: Honey Block
