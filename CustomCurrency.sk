@@ -736,7 +736,8 @@ on inventory click:
                             set {_text} to "<##44E0A2> &l● {@Currency-Name} Shops &8&l▪ &7You have purchased <##44E0A2>{amount}x&7 of <##44E0A2>{item} &7for <##44E0A2>${price} {@Currency-Name} &7from the shop!"
                             replace "{amount}" with "1" in {_text}
                             if {-%player's uuid%::ItemName} isn't "":
-                                set {_name} to {-%player's uuid%::ItemName}
+                                set {_ian} to coloured {-%player's uuid%::ItemName}
+                                set {_name} to {_ian}
                                 replace "{item}" with "%{_name}%" in {_text}
                             else:
                                 replace "{item}" with "%{_name}%" in {_text}
@@ -759,7 +760,8 @@ on inventory click:
                                         close player's inventory
                             else:
                                 if {-%player's uuid%::ItemName} isn't "":
-                                    set name of {_item} to {-%player's uuid%::ItemName}
+                                    set {_ian} to coloured {-%player's uuid%::ItemName}
+                                    set name of {_item} to {_ian}
                                 else:
                                     reset name of {_item}
                                 give {_item} to player
@@ -839,6 +841,7 @@ on placeholderapi placeholder request for the prefix "CustomCurrency":
 #░╚════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░░░░╚═╝░╚═════╝░╚═╝░░░░░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░░░╚══════╝░╚════╝░╚═╝░░╚═╝╚═════╝░#
 #-------------------------------------------------------------------------------------------------------------------------------#
 on load:
+    suppress the variable save warnings
     set {_at the top::*} to "░█████╗░██╗░░░██╗░██████╗████████╗░█████╗░███╗░░░███╗░█████╗░██╗░░░██╗██████╗░██████╗░███████╗███╗░░██╗░█████╗░██╗░░░██╗####" and "██╔══██╗██║░░░██║██╔════╝╚══██╔══╝██╔══██╗████╗░████║██╔══██╗██║░░░██║██╔══██╗██╔══██╗██╔════╝████╗░██║██╔══██╗╚██╗░██╔╝####" and "██║░░╚═╝██║░░░██║╚█████╗░░░░██║░░░██║░░██║██╔████╔██║██║░░╚═╝██║░░░██║██████╔╝██████╔╝█████╗░░██╔██╗██║██║░░╚═╝░╚████╔╝░####" and "██║░░██╗██║░░░██║░╚═══██╗░░░██║░░░██║░░██║██║╚██╔╝██║██║░░██╗██║░░░██║██╔══██╗██╔══██╗██╔══╝░░██║╚████║██║░░██╗░░╚██╔╝░░####" and "╚█████╔╝╚██████╔╝██████╔╝░░░██║░░░╚█████╔╝██║░╚═╝░██║╚█████╔╝╚██████╔╝██║░░██║██║░░██║███████╗██║░╚███║╚█████╔╝░░░██║░░░####" and "░╚════╝░░╚═════╝░╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚═╝░╚════╝░░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝░░╚══╝░╚════╝░░░░╚═╝░░░####" and "------------------------------------------------------------------------####" and "                             Author: MrErrors                           ####" and "                              Version: 1.0.1                            ####" and "                           Discord: LostPanda##7778                       ####" and "------------------------------------------------------------------------####"
     if new File("plugins/CustomCurrency/Config.yml").exists() is false:
         download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Config.yml" and store it inside "plugins/CustomCurrency/Config.yml"
@@ -850,29 +853,25 @@ on load:
     else:
         message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Loading config.yml file!" to console
         load "plugins/CustomCurrency/Config.yml" as "plugins/CustomCurrency/Config.yml"
-        wait 1 tick
-        set {_status} to yaml value "CustomCurreny-Shop" of "plugins/CustomCurrency/Config.yml"
-        if {_status} is true:
-            suppress the variable save warnings
-            if new File("plugins/CustomCurrency/Menu-Layout.yml").exists() is false:
-                download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Menu-Layout.yml" and store it inside "plugins/CustomCurrency/Menu-Layout.yml"
-                wait 2 ticks
-                load "plugins/CustomCurrency/Menu-Layout.yml" as "plugins/CustomCurrency/Menu-Layout.yml"
-                set the comments at the top of "plugins/CustomCurrency/Menu-Layout.yml" to {_at the top::*}
-                save yaml "plugins/CustomCurrency/Menu-Layout.yml"
-                message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating Menu-Layout.yml file!" to console
-            else:
-                load "plugins/CustomCurrency/Menu-Layout.yml" as "plugins/CustomCurrency/Menu-Layout.yml"
+    if new File("plugins/CustomCurrency/Menu-Layout.yml").exists() is false:
+        download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Menu-Layout.yml" and store it inside "plugins/CustomCurrency/Menu-Layout.yml"
+        wait 2 ticks
+        load "plugins/CustomCurrency/Menu-Layout.yml" as "plugins/CustomCurrency/Menu-Layout.yml"
+        set the comments at the top of "plugins/CustomCurrency/Menu-Layout.yml" to {_at the top::*}
+        save yaml "plugins/CustomCurrency/Menu-Layout.yml"
+        message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating Menu-Layout.yml file!" to console
+    else:
+        load "plugins/CustomCurrency/Menu-Layout.yml" as "plugins/CustomCurrency/Menu-Layout.yml"
 
-            if new File("plugins/CustomCurrency/Shop-Category.yml").exists() is false:
-                download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Shop-Category.yml" and store it inside "plugins/CustomCurrency/Shop-Category.yml"
-                wait 2 ticks
-                load "plugins/CustomCurrency/Shop-Category.yml" as "plugins/CustomCurrency/Shop-Category.yml"
-                set the comments at the top of "plugins/CustomCurrency/Shop-Category.yml" to {_at the top::*}
-                save yaml "plugins/CustomCurrency/Shop-Category.yml"
-                message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating Shop-Category.yml file!" to console
-            else:
-                load "plugins/CustomCurrency/Shop-Category.yml" as "plugins/CustomCurrency/Shop-Category.yml"
-            wait 1 tick
-            registerShopMenu()
-            registerShopCategories()
+    if new File("plugins/CustomCurrency/Shop-Category.yml").exists() is false:
+        download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Shop-Category.yml" and store it inside "plugins/CustomCurrency/Shop-Category.yml"
+        wait 2 ticks
+        load "plugins/CustomCurrency/Shop-Category.yml" as "plugins/CustomCurrency/Shop-Category.yml"
+        set the comments at the top of "plugins/CustomCurrency/Shop-Category.yml" to {_at the top::*}
+        save yaml "plugins/CustomCurrency/Shop-Category.yml"
+        message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating Shop-Category.yml file!" to console
+    else:
+        load "plugins/CustomCurrency/Shop-Category.yml" as "plugins/CustomCurrency/Shop-Category.yml"
+    wait 1 tick
+    registerShopMenu()
+    registerShopCategories()
