@@ -12,25 +12,28 @@ Shop-Category:
     Commands:
         Page-1:
             1:
-                material: Bookshelf
+                material: Iron Sword
                 slot: 10
                 buy: 5
-                custom-model-data: false
-                commands:
-                - '/bc hey'
-                - '/give {player} diamond 1'
-                - '/bc hey3'
+                itemadder:
+                    displayname: "&cNexus Sword"
+                    model: "nexusset:nexus_sword"
+                commands: ''
             2:
                 material: Hay Block
                 slot: 11
                 buy: 10
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             3:
                 material: Honey Block
                 slot: 12
                 buy: 15
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
     Ranks:
         Page-1:
@@ -38,19 +41,25 @@ Shop-Category:
                 material: Bookshelf
                 slot: 10
                 buy: 119.12
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             2:
                 material: Hay Block
                 slot: 11
                 buy: 20
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             3:
                 material: Honey Block
                 slot: 12
                 buy: 33.34
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
     Keys:
         Page-1:
@@ -58,19 +67,25 @@ Shop-Category:
                 material: Bookshelf
                 slot: 10
                 buy: 119.12
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             2:
                 material: Hay Block
                 slot: 11
                 buy: 20
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             3:
                 material: Honey Block
                 slot: 12
                 buy: 33.34
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
     Claim-Blocks:
         Page-1:
@@ -78,19 +93,25 @@ Shop-Category:
                 material: Bookshelf
                 slot: 10
                 buy: 119.12
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             2:
                 material: Hay Block
                 slot: 11
                 buy: 20
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             3:
                 material: Honey Block
                 slot: 12
                 buy: 33.34
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
     Miscellaneous:
         Page-1:
@@ -98,17 +119,23 @@ Shop-Category:
                 material: Bookshelf
                 slot: 10
                 buy: 119.12
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             2:
                 material: Hay Block
                 slot: 11
                 buy: 20
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
             3:
                 material: Honey Block
                 slot: 12
                 buy: 33.34
-                custom-model-data: false
+                itemadder:
+                    displayname: ""
+                    model: ""
                 commands: ''
