@@ -100,7 +100,7 @@ Shops-Category:
             - ''
             - "&eClick to browse category!"
             NBT: ''
-            Custom-Model-Data: false
+            ItemAdder: ""
     Ranks:
         Display-Item:
             Enabled: true
@@ -115,7 +115,7 @@ Shops-Category:
             - ''
             - "&eClick to browse category!"
             NBT: ''
-            Custom-Model-Data: false
+            ItemAdder: ""
     Keys:
         Display-Item:
             Enabled: true
@@ -130,7 +130,7 @@ Shops-Category:
             - ''
             - "&eClick to browse category!"
             NBT: ''
-            Custom-Model-Data: false
+            ItemAdder: ""
     Claim-Blocks:
         Display-Item:
             Enabled: true
@@ -145,7 +145,7 @@ Shops-Category:
             - ''
             - "&eClick to browse category!"
             NBT: ''
-            Custom-Model-Data: false
+            ItemAdder: ""
     Miscellaneous:
         Display-Item:
             Enabled: true
@@ -160,4 +160,4 @@ Shops-Category:
             - ''
             - "&eClick to browse category!"
             NBT: ''
-            Custom-Model-Data: false
+            ItemAdder: ""
