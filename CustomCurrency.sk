@@ -1,0 +1,873 @@
+#░█████╗░██╗░░░██╗░██████╗████████╗░█████╗░███╗░░░███╗░█████╗░██╗░░░██╗██████╗░██████╗░███████╗███╗░░██╗░█████╗░██╗░░░██╗
+#██╔══██╗██║░░░██║██╔════╝╚══██╔══╝██╔══██╗████╗░████║██╔══██╗██║░░░██║██╔══██╗██╔══██╗██╔════╝████╗░██║██╔══██╗╚██╗░██╔╝
+#██║░░╚═╝██║░░░██║╚█████╗░░░░██║░░░██║░░██║██╔████╔██║██║░░╚═╝██║░░░██║██████╔╝██████╔╝█████╗░░██╔██╗██║██║░░╚═╝░╚████╔╝░
+#██║░░██╗██║░░░██║░╚═══██╗░░░██║░░░██║░░██║██║╚██╔╝██║██║░░██╗██║░░░██║██╔══██╗██╔══██╗██╔══╝░░██║╚████║██║░░██╗░░╚██╔╝░░
+#╚█████╔╝╚██████╔╝██████╔╝░░░██║░░░╚█████╔╝██║░╚═╝░██║╚█████╔╝╚██████╔╝██║░░██║██║░░██║███████╗██║░╚███║╚█████╔╝░░░██║░░░
+#░╚════╝░░╚═════╝░╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚═╝░╚════╝░░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝░░╚══╝░╚════╝░░░░╚═╝░░░
+#|================================================|#
+#|					INFORMATION					  |#
+#|================================================|#
+# Script Author: 
+# - MrErrors
+#
+# Discord: 
+# - LostPanda#7778
+#
+# Script Version: 
+# - 1.0.1
+#|================================================|#
+#|					OPTIONS					      |#
+#|================================================|#
+#----------------------------------------------
+#THIS IS THE MAIN COMMAND FOR THIS SKRIPT!!!!!
+OPTIONS:
+    Main-Command: /Beans
+    Aliases: /bean, /b
+    Currency-Name: Beans
+
+#-------------------------------------------------------#
+#██╗███╗░░░███╗██████╗░░█████╗░██████╗░████████╗░██████╗#
+#██║████╗░████║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝#
+#██║██╔████╔██║██████╔╝██║░░██║██████╔╝░░░██║░░░╚█████╗░#
+#██║██║╚██╔╝██║██╔═══╝░██║░░██║██╔══██╗░░░██║░░░░╚═══██╗#
+#██║██║░╚═╝░██║██║░░░░░╚█████╔╝██║░░██║░░░██║░░░██████╔╝#
+#╚═╝╚═╝░░░░░╚═╝╚═╝░░░░░░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░#
+#-------------------------------------------------------#
+import:
+    java.lang.Long
+    java.io.File
+    java.io.FileOutputStream
+    java.net.URL
+    java.nio.channels.Channels
+    java.util.ArrayList
+    java.util.List
+    java.util.Set
+    org.bukkit.Bukkit
+    org.bukkit.inventory.ItemStack
+    org.bukkit.Material
+    org.bukkit.configuration.file.FileConfiguration
+    org.bukkit.configuration.file.YamlConfiguration
+    org.bukkit.configuration.MemorySection
+
+#---------------------------------------------------------#
+#██████╗░███████╗███████╗██╗░░░░░███████╗░█████╗░████████╗#
+#██╔══██╗██╔════╝██╔════╝██║░░░░░██╔════╝██╔══██╗╚══██╔══╝#
+#██████╔╝█████╗░░█████╗░░██║░░░░░█████╗░░██║░░╚═╝░░░██║░░░#
+#██╔══██╗██╔══╝░░██╔══╝░░██║░░░░░██╔══╝░░██║░░██╗░░░██║░░░#
+#██║░░██║███████╗██║░░░░░███████╗███████╗╚█████╔╝░░░██║░░░#
+#╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚══════╝╚══════╝░╚════╝░░░░╚═╝░░░#
+#---------------------------------------------------------#
+condition plugin %string% exists:
+    check:
+        if Bukkit.getPluginManager().getPlugin(expression-1) is set:
+            continue
+
+condition plugin %string% is (1¦enabled|2¦exists):
+    check:
+        if Bukkit.getPluginManager().isPluginEnabled(expression-1):
+            if parse mark is 1:
+                continue
+        else:
+            if parse mark is 2:
+                continue 
+
+effect download file from %string% and store it inside %string%:
+  trigger:
+    create section with arguments variables {_link}, {_file} stored in {_section}:
+      set {_url} to new URL({_link})
+      set {_file} to new File({_file})
+
+      # create the path if it doesn't exist for some reason
+      {_file}.getParentFile().mkdirs()
+      {_file}.createNewFile()
+      
+      # download the file
+      set {_readableByteChannel} to Channels.newChannel({_url}.openStream())
+      set {_fileOutputStream} to new FileOutputStream({_file}) 
+      set {_fileChannel} to {_fileOutputStream}.getChannel()
+      {_fileChannel}.transferFrom({_readableByteChannel}, 0, Long.MAX_VALUE)
+
+    run section {_section} async with arguments expr-1, expr-2 and wait
+
+expression [get] all yaml nodes %string% from %string% [:with keys] [to %sender%]:
+    return type: objects
+    get:
+        set {_sender} to expr-3
+        set {_getKeys} to true if parser tags contains "with keys", else false
+        expr-2 is set:
+            set {_file} to try new File(expr-2)
+            if {_file}.exists():
+                set {_con} to YamlConfiguration.loadConfiguration({_file})
+                if expr-1 is set:
+                    set {_node} to expr-1
+                    if {_con}.contains({_node}):
+                        return ...{_con}.getConfigurationSection({_node}).getKeys({_getKeys})
+            else:
+                send "The %expr-2% doesn't exist" to {_sender}
+        if last java exception is set:
+            send "&c%last java exception%" to {_sender}
+
+#-----------------------------------------------------------------------#
+#███████╗██╗░░░██╗███╗░░██╗░█████╗░████████╗██╗░█████╗░███╗░░██╗░██████╗#
+#██╔════╝██║░░░██║████╗░██║██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║██╔════╝#
+#█████╗░░██║░░░██║██╔██╗██║██║░░╚═╝░░░██║░░░██║██║░░██║██╔██╗██║╚█████╗░#
+#██╔══╝░░██║░░░██║██║╚████║██║░░██╗░░░██║░░░██║██║░░██║██║╚████║░╚═══██╗#
+#██║░░░░░╚██████╔╝██║░╚███║╚█████╔╝░░░██║░░░██║╚█████╔╝██║░╚███║██████╔╝#
+#╚═╝░░░░░░╚═════╝░╚═╝░░╚══╝░╚════╝░░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░#
+#-----------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+# This function is being used everytime a player joins to make sure they have a data stored into a yml their uuid is the name of the file.
+function Join_FirstJoin(p: Player):
+    set {_uuid} to {_p}'s uuid
+    if new File("plugins/CustomCurrency/PlayerData/%{_uuid}%.yml").exists() is false:
+        load yaml "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml" as "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml"
+        set yaml value "Player.Username" from "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml" to "%{_p}%"
+        set yaml value "Player.Currency" from "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml" to 0
+        save yaml "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml"
+        wait 2 ticks
+        message "<##44E0A2> &l● CustomCurrency &8&l➤ &7Creating <##44E0A2>%{_uuid}%.yml &7playerdata file!" to console
+    else:
+        load yaml "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml" as "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml"
+        set {_name} to yaml value "Player.Username" from "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml"
+        if {_p} isn't {_name}:
+            set yaml value "Player.Username" of "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml" to {_name}
+            save yaml "plugins/CustomCurrency/PlayerData/%{_uuid}%.yml"
+#---------------------------------------------------------------------------------------------------------------------#
+# this function is used for grabbing the number of rows that is used within each gui it self.
+function RowsReturn(node: string, path: string) :: number:
+    set {_n} to yaml value "%{_node}%" from "%{_path}%"
+    return {_n}
+
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any error that has happened when adding an item to the gui shop.
+function ErrorReturn(category: text, item: text, page: text, file: string) :: text:
+    set {_text} to "<##FFE100> &l● Shops &8&l▪ &7There was an error found on &f{category}&7/&f{page}&7/&f{item}&7 in &f{file}"
+    replace "{category}" with "%{_category}%" in {_text}
+    replace "{page}" with "%{_page}%" in {_text}
+    replace "{item}" with "%{_item}%" in {_text}
+    replace "{file}" with "%{_file}%" in {_text}
+    set {_return} to coloured {_text}
+    return {_return}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return the players balance slot which can be added to more then just balanace
+function PlayerBalanceItem(node: string, path: string, p: Player) :: item:
+    set {_material} to yaml value "%{_node}%.Display-Item.Material" from "%{_path}%"
+    set {_name} to yaml value "%{_node}%.Display-Item.Name" from "%{_path}%"
+    set {_nbt} to yaml value "%{_node}%.Display-Item.NBT" from "%{_path}%"
+    set {_lore::*} to yaml list "%{_node}%.Display-Item.Lore" from "%{_path}%"
+    if {_material} is "player skull":
+        if {_nbt} isn't false:
+            set {_head} to getSkullFromTexture({_nbt})
+            set {_n} to coloured {_name}
+            set {_bal} to placeholder "CustomCurrency_Balance" from {_p}
+            replace "{displayname}" with "%{_p}%" in {_n}
+            replace "{placeholder}" with "%{_bal}%" in {_lore::*}
+            set {_item} to {_head} named "%{_n}%"
+            set lore of {_item} to coloured {_lore::*}
+            if {_item} is set:
+                return {_item}
+        else:
+            set {_head} to skull of ("%{_p}%" parsed as offline player)
+            set {_n} to coloured {_name}
+            set {_bal} to placeholder "CustomCurrency_Balance" from {_p}
+            replace "{displayname}" with "%{_p}%" in {_n}
+            replace "{placeholder}" with "%{_bal}%" in {_lore::*}
+            set {_item} to {_head} named "%{_n}%"
+            set lore of {_item} to coloured {_lore::*}
+            if {_item} is set:
+                return {_item}
+            
+    else:
+        set {_mu} to "%{_material}%" in upper snake case
+        set {_m} to Material.getMaterial({_mu})
+        set {_mat} to new ItemStack({_m}, 1)
+        set {_n} to coloured {_name}
+        set {_bal} to placeholder "CustomCurrency_Balance" from {_p}
+        replace "{displayname}" with "%{_p}%" in {_n}
+        replace "{placeholder}" with "%{_bal}%" in {_lore::*}
+        set {_item} to {_mat} named "%{_n}%"
+        set lore of {_item} to coloured {_lore::*}
+        if {_item} is set:
+            return {_item}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return the player's balance in formatted forum
+function format(n: number) :: text:
+    set {_data} to "QT,18|Q,15|T,12|B,9|M,6|k,3"
+    loop split {_data} at "|":
+        set {_s::*} to split loop-value at ","
+        {_n} >= 10 ^ {_s::2} parsed as number
+        return "%{_n} / 10 ^ {_s::2} parsed as number%%{_s::1}%"
+    return "%{_n}%"
+
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any text mainly used for titles/item names
+function TextReturn(node: string, path: string) :: text:
+    set {_t} to yaml value "%{_node}%" from "%{_path}%"
+    set {_text} to coloured "%{_t}%"
+    return {_text}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any text mainly used for titles/item names
+function PriceReturn(node: string, path: string, click: number, price: text) :: number:
+    set {_ItemPrice::*} to all yaml nodes "Shop-Category.%{_node}%" from "%{_path}%" to console
+    loop {_ItemPrice::*}:
+        set {_slot} to yaml value "Shop-Category.%{_node}%.%loop-value%.slot" from "%{_path}%"
+        if {_slot} = {_click}:
+            set {_value} to yaml value "Shop-Category.%{_node}%.%loop-value%.%{_price}%" from "%{_path}%"
+            return {_value}
+            stop loop
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any slot for the guis
+function SlotReturn(node: string, path: string) :: number:
+    set {_n} to yaml value "%{_node}%" from "%{_path}%"
+    return {_n}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function is for used when grabbing a custom player head from minecraft-heads.com
+function getSkullFromTexture(texture: string) :: item:
+    # Creating NBT
+    set {_n} to nbt compound of "{display:{Name:""{\""text\"":\""Corrupted Prototype\""}""},SkullOwner:{Id:[I;-225183921,-585806128,-1602835756,436492956],Properties:{textures:[{Value:""%{_texture}%""}]}}}"
+    set {_skull} to player skull with nbt {_n}
+    return {_skull}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return category that equals the inventory click from main gui
+function CategoryReturn(click: number, node: string, path: string) :: text:
+    set {_c::*} to all yaml nodes "%{_node}%" from "%{_path}%" to console
+    loop {_c::*}:
+        set {_slot} to yaml value "%{_node}%.%loop-value%.Display-Item.Slot" from "%{_path}%"
+        if {_click} = {_slot}:
+            set {_category} to loop-value
+            stop loop
+    return {_category}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any the slot being used for the main items with-in the gui like Next/Back/Close/Return items
+function MainItemReturnSlot(node: string, path: string) :: number:
+    set {_e} to yaml value "%{_node}%.Enabled" from "%{_path}%"
+    if {_e} is true:
+        set {_n} to yaml value "%{_node}%.Slot" from "%{_path}%"
+    else:
+        stop
+    return {_n}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any slot for the guis
+function SellanBuyReturnSlots(node: string, path: string) :: numbers:
+    set {_n::*} to yaml list "%{_node}%.slots" from "%{_path}%"
+    return {_n::*}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any slot for the guis
+function SellanBuyReturnMaterial(node: string, path: string) :: item:
+    set {_n} to yaml value "%{_node}%.material" from "%{_path}%"
+    if {_n} is "player skull":
+        set {_nbt} to yaml value "%{_node}%.nbt" from "%{_path}%"
+        set {_item} to getSkullFromTexture({_nbt})
+        return {_item}
+    else:
+        if {_n} is not "air":
+            set {_Iname} to "%{_n}%" in upper snake case
+            set {_m} to Material.getMaterial({_Iname})
+            set {_item} to new ItemStack({_m}, 1)
+            return {_item}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return any text mainly used for titles/item names
+function TitleReturn(node: string, path: string, category: text, page: text) :: text:
+    set {_t} to yaml value "%{_node}%" from "%{_path}%"
+    set {_LastPagesNumber::*} to all yaml nodes "Shop-Category.%{_category}%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+    loop {_LastPagesNumber::*}:
+        set {_lp} to last element of {_LastPagesNumber::*}
+        stop loop
+    replace "Page-" with "" in {_lp}
+    replace "{maxpage}" with "%{_lp}%" in {_t}
+    replace "Page-" with "" in {_lp}
+    replace "{category}" with "%{_category}%" in {_t}
+    replace "Page-" with "" in {_page} and {_maxpage}
+    replace "{page}" with "%{_page}%" in {_t}
+    #broadcast "%{_page}% and %{_maxpage}%"
+    set {_text} to coloured "%{_t}%"
+    return {_text}
+
+#---------------------------------------------------------------------------------------------------------------------#
+# This function will return the main items like back page/next page/close and return items.
+function CategoryMainItems(node: string, path: string) :: item:
+    set {_material} to yaml value "%{_node}%.Display-Item.Material" from "%{_path}%"
+    set {_name} to yaml value "%{_node}%.Display-Item.Name" from "%{_path}%"
+    set {_nbt} to yaml value "%{_node}%.Display-Item.NBT" from "%{_path}%"
+    set {_lore::*} to yaml list "%{_node}%.Display-Item.Lore" from "%{_path}%"
+    if {_material} is "player skull":
+        if {_nbt} is set:
+            set {_head} to getSkullFromTexture({_nbt})
+            set {_n} to coloured {_name}
+            set {_item} to {_head} named "%{_n}%"
+            set lore of {_item} to coloured {_lore::*}
+            return {_item}
+    else:
+        set {_mu} to "%{_material}%" in upper snake case
+        set {_m} to Material.getMaterial({_mu})
+        set {_mat} to new ItemStack({_m}, 1)
+        set {_n} to coloured {_name}
+        set {_item} to {_mat} named "%{_n}%"
+        set lore of {_item} to coloured {_lore::*}
+        return {_item}
+#---------------------------------------------------------------------------------------------------------------------#
+# Do the /shop or what not formatting here
+# Upon calling the category slots 
+# set a variable {-shop} to the inventory    
+function registerShopMenu():
+    set {_rows} to RowsReturn("Store-Menu.Rows", "plugins/CustomCurrency/Menu-Layout.yml")
+    set {_title} to TextReturn("Store-Menu.Title", "plugins/CustomCurrency/Menu-Layout.yml")
+    set {-shop} to chest inventory with {_rows} rows named "%{_title}%"
+    set {_Filler::*} to all yaml nodes "Store-Menu.Filler" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+    set {_Shops::*} to all yaml nodes "Shops-Category" from "plugins/CustomCurrency/Config.yml" to console
+    loop {_Filler::*}:
+        set {_Slots_%loop-value%::*} to yaml list "Store-Menu.Filler.%loop-value%.slots" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Material_%loop-value%} to yaml value "Store-Menu.Filler.%loop-value%.material" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Enabled_%loop-value%} to yaml value "Category-Menu.Filler.%loop-value%.enabled" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_mu_%loop-value%} to "%{_Material_%loop-value%}%" in upper snake case
+        set {_m_%loop-value%} to Material.getMaterial({_mu_%loop-value%})
+        if {_Enabled_%loop-value%} is true:
+            set {_Fill_%loop-value%} to yaml value "Category-Menu.Filler.%loop-value%.fill" from "plugins/CustomCurrency/Menu-Layout.yml"
+            if {_Fill_%loop-value%} is true:
+                if {_Material_%loop-value%} is not "air":
+                    set {_item} to new ItemStack({_m_%loop-value%}, 1)
+                    set slot (integers from 0 to 53) of {-shop} to {_item} named "&6" with lore ""
+            else:
+                set {_item} to new ItemStack({_m_%loop-value%}, 1)
+                set slot {_Slots_%loop-value%::*} of {-shop} to {_item} named "&6" with lore ""
+
+    set {_exit-slot} to SlotReturn("Store-Menu.Exit-Slot", "plugins/CustomCurrency/Menu-Layout.yml")
+    set {_exit-item} to CategoryMainItems("Store-Menu-Items.Exit-Menu", "plugins/CustomCurrency/Config.yml" )
+    if {_exit-slot} is set:
+        set slot {_exit-slot} of {-shop} to {_exit-item}
+
+    loop {_Shops::*}:
+        set {_material} to yaml value "Shops-Category.%loop-value%.Display-Item.Material" from "plugins/CustomCurrency/Config.yml"
+        set {_slot} to yaml value "Shops-Category.%loop-value%.Display-Item.Slot" from "plugins/CustomCurrency/Config.yml"
+        set {_name} to TextReturn("Shops-Category.%loop-value%.Display-Item.Name","plugins/CustomCurrency/Config.yml")
+        set {_nbt} to yaml value "Shops-Category.%loop-value%.Display-Item.NBT" from "plugins/CustomCurrency/Config.yml"
+        set {_cmd} to yaml value "Shops-Category.%loop-value%.Display-Item.Custom-Model-Data" from "plugins/CustomCurrency/Config.yml"
+        if {_material} is "player skull":
+            set {_head} to getSkullFromTexture({_nbt})
+            set {_lore::*} to yaml list "Shops-Category.%loop-value%.Display-Item.Lore" from "plugins/CustomCurrency/Config.yml"
+            set slot {_slot} of {-shop} to {_head} named "%{_name}%" with lore coloured {_lore::*}
+        else:
+            if {_cmd} isn't false:
+                set {_mu} to "%{_material}%" in upper snake case
+                set {_m} to Material.getMaterial({_mu})
+                set {_item} to new ItemStack({_m}, 1)
+                set custom model data of {_item} to {_cmd}
+                set {_lore::*} to yaml list "Shops-Category.%loop-value%.Display-Item.Lore" from "plugins/CustomCurrency/Config.yml"
+                broadcast "5"
+                set slot {_slot} of {-shop} to {_item} named "%{_name}%" with lore coloured {_lore::*}
+            else:
+                set {_mu} to "%{_material}%" in upper snake case
+                set {_m} to Material.getMaterial({_mu})
+                set {_item} to new ItemStack({_m}, 1)
+                set {_lore::*} to yaml list "Shops-Category.%loop-value%.Display-Item.Lore" from "plugins/CustomCurrency/Config.yml"
+                set slot {_slot} of {-shop} to {_item} named "%{_name}%" with lore coloured {_lore::*}
+
+#---------------------------------------------------------------------------------------------------------------------#
+# Loop all possible categories and upon doing so 
+# loop their nodes and run them under registerShopCategoryPage(category, page)
+# No variables should be set within this function
+#Shop-Category.yml
+function registerShopCategories():
+    set {_Category::*} to all yaml nodes "Shop-Category" from "plugins/CustomCurrency/Shop-Category.yml" to console
+    loop {_Category::*}:
+        set {_Pages::*} to all yaml nodes "Shop-Category.%loop-value%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+        loop {_Pages::*}:
+            registerShopCategoryPage(loop-value-1, loop-value-2)
+
+#---------------------------------------------------------------------------------------------------------------------#
+# Now that we have the category name and the category page name what's next?
+# Retireving their values and formatting a function
+# set a variable {-shop::CATEGORY::PAGE} to the inventory
+function registerShopCategoryPage(category:string, page:string):
+    set {_rows} to RowsReturn("Category-Menu.Rows", "plugins/CustomCurrency/Menu-Layout.yml")
+    set {_title} to TitleReturn("Category-Menu.Title", "plugins/CustomCurrency/Menu-Layout.yml", {_category}, {_page})
+    set {-shop::%{_category}%::%{_page}%} to chest inventory with {_rows} rows named "%{_title}%"
+    set {_Item::*} to all yaml nodes "Shop-Category.%{_category}%.%{_page}%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+    set {_Filler::*} to all yaml nodes "Category-Menu.Filler" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+    loop {_Filler::*}:
+        set {_Slots_%loop-value%::*} to yaml list "Category-Menu.Filler.%loop-value%.slots" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Material_%loop-value%} to yaml value "Category-Menu.Filler.%loop-value%.material" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Enabled_%loop-value%} to yaml value "Category-Menu.Filler.%loop-value%.enabled" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_mu_%loop-value%} to "%{_Material_%loop-value%}%" in upper snake case
+        set {_m_%loop-value%} to Material.getMaterial({_mu_%loop-value%})
+        if {_Enabled_%loop-value%} is true:
+            set {_Fill_%loop-value%} to yaml value "Category-Menu.Filler.%loop-value%.fill" from "plugins/CustomCurrency/Menu-Layout.yml"
+            if {_Fill_%loop-value%} is true:
+                if {_Material_%loop-value%} is not "air":
+                    set {_item} to new ItemStack({_m_%loop-value%}, 1)
+                    set slot (integers from 0 to 53) of {-shop::%{_category}%::%{_page}%} to {_item} named "&6" with lore ""
+            else:
+                set {_item} to new ItemStack({_m_%loop-value%}, 1)
+                set slot {_Slots_%loop-value%::*} of {-shop::%{_category}%::%{_page}%} to {_item} named "&6" with lore ""
+
+    loop {_Item::*}:
+        set {_material} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.material" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_name} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.material" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_slot} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.slot" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_buy} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.buy" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_cmd} to yaml value "Shop-Category.%{_category}%.%{_page}%.%loop-value%.custom-model-data" from "plugins/CustomCurrency/Shop-Category.yml"
+        set {_commands::*} to yaml list "Shop-Category.%{_category}%.%{_page}%.%loop-value%.commands" from "plugins/CustomCurrency/Shop-Category.yml"
+
+        set {_mu} to "%{_material}%" in upper snake case 
+        set {_m} to Material.getMaterial({_mu})
+        if {_m} is set:
+            if {_cmd} isn't false:
+                set {_i} to new ItemStack({_m}, 1)
+                set {_item} to ShopItemMaterial({_i}, {_name}, {_buy})
+                set custom model data of {_item} to {_cmd}
+                set slot {_slot} of {-shop::%{_category}%::%{_page}%} to {_item}
+            else:
+                set {_i} to new ItemStack({_m}, 1)
+                set {_item} to ShopItemMaterial({_i}, {_name}, {_buy})
+                set slot {_slot} of {-shop::%{_category}%::%{_page}%} to {_item}
+        else:
+            loop all players:
+                if loop-player has permission "CustomCurrency.debug":
+                    set {_error} to ErrorReturn({_category}, {_material}, {_page}, "plugins/CustomCurrency/Shop-Category.yml")
+                    send {_error} to console
+                    send {_error} to loop-player
+                    if {_sound} is set:
+                        play sound "ENTITY_WITHER_HURT" at volume 1 at pitch 2 to loop-player
+
+    set {_next-p} to CategoryMainItems("Store-Menu-Items.Next-Page", "plugins/CustomCurrency/Config.yml")
+    set {_next-slot} to MainItemReturnSlot("Category-Menu.Next-Page","plugins/CustomCurrency/Menu-Layout.yml")
+    if {_next-p} is set:
+        set slot {_next-slot} of {-shop::%{_category}%::%{_page}%} to {_next-p}
+
+    set {_back-p} to CategoryMainItems("Store-Menu-Items.Back-Page", "plugins/CustomCurrency/Config.yml")
+    set {_back-slot} to MainItemReturnSlot("Category-Menu.Back-Page","plugins/CustomCurrency/Menu-Layout.yml")
+    if {_back-p} is set:
+        set slot {_back-slot} of {-shop::%{_category}%::%{_page}%} to {_back-p}
+
+    set {_return-p} to CategoryMainItems("Store-Menu-Items.Return-Menu", "plugins/CustomCurrency/Config.yml")
+    set {_return-slot} to MainItemReturnSlot("Category-Menu.Return-Store","plugins/CustomCurrency/Menu-Layout.yml")
+    if {_return-p} is set:
+        set slot {_return-slot} of {-shop::%{_category}%::%{_page}%} to {_return-p}
+#---------------------------------------------------------------------------------------------------------------------##
+function ShopItemMaterial(material: item, ItemName: text, buy: number) :: item:
+    set {_name} to yaml value "Shop-Lore.Name" from "plugins/CustomCurrency/Config.yml"
+    set {_lore::*} to yaml list "Shop-Lore.Lore" from "plugins/CustomCurrency/Config.yml"
+    set {_b} to format({_buy})
+    replace "{buy_price}" with "%{_b}%" in {_lore::*}
+    replace "{item}" with "%{_ItemName}%" in {_name}
+    set {_name} to coloured {_name}
+    set {_item} to {_material} named "%{_name}%"
+    set lore of {_item} to coloured {_lore::*}
+    return {_item}
+#---------------------------------------------------------------------------------------------------------------------#
+# This function is will be ran once a item has been clicked within the shop gui. This will allow you to purchase and item or sell
+function registerItemShop(item: item, p: Player, buy: number, sell: number):
+    set {_in} to {_item}
+    reset name of {_in}
+    set {_rows} to RowsReturn("Buy-Sell-Menu.Rows", "plugins/CustomCurrency/Menu-Layout.yml")
+    set {_title} to TextReturn("Buy-Sell-Menu.Title", "plugins/CustomCurrency/Menu-Layout.yml")
+    set {_return-status} to yaml value "Buy-Sell-Menu.Return-Store.Enabled" from "plugins/CustomCurrency/Menu-Layout.yml"
+    set {_return-slot} to yaml value "Buy-Sell-Menu.Return-Store.Slot" from "plugins/CustomCurrency/Menu-Layout.yml"
+    set {_n} to name of {_item}
+    set {_n-uncoloured} to uncoloured {_n}
+    replace "{item}" with "%{_n-uncoloured}%" in {_title}
+    set {-BuyanSell::%{_p}'s uuid%} to chest inventory with {_rows} rows named "%{_title}%"
+
+    set {_Filler::*} to all yaml nodes "Buy-Sell-Menu.Filler" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+    loop {_Filler::*}:
+        set {_Slots_%loop-value%::*} to yaml list "Buy-Sell-Menu.Filler.%loop-value%.slots" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Material_%loop-value%} to yaml value "Buy-Sell-Menu.Filler.%loop-value%.material" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Enabled_%loop-value%} to yaml value "Buy-Sell-Menu.Filler.%loop-value%.enabled" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_mu_%loop-value%} to "%{_Material_%loop-value%}%" in upper snake case
+        set {_m_%loop-value%} to Material.getMaterial({_mu_%loop-value%})
+        if {_Enabled_%loop-value%} is true:
+            set {_Fill_%loop-value%} to yaml value "Buy-Sell-Menu.Filler.%loop-value%.fill" from "plugins/CustomCurrency/Menu-Layout.yml"
+            if {_Fill_%loop-value%} is true:
+                if {_Material_%loop-value%} is not "air":
+                    set {_item-filler} to new ItemStack({_m_%loop-value%}, 1)
+                    set slot (integers from 0 to 53) of {-BuyanSell::%{_p}'s uuid%} to {_item-filler}
+            else:
+                set {_item} to new ItemStack({_m_%loop-value%}, 1)
+                set slot {_Slots_%loop-value%::*} of {-BuyanSell::%{_p}'s uuid%} to {_item} named "&6" with lore ""
+                
+    if {_return-status} is true:
+        set {_item-return} to CategoryMainItems("Store-Menu-Items.Return-Menu", "plugins/CustomCurrency/Config.yml")
+        set slot {_return-slot} of {-BuyanSell::%{_p}'s uuid%} to {_item-return}
+
+    set {_Buy::*} to all yaml nodes "Buy-Sell-Menu.Purchase-Item" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+    set {_Cancel::*} to all yaml nodes "Buy-Sell-Menu.Cancel-Purchase" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+    loop {_Buy::*}:
+        set {_Buy-Slots::*} to SellanBuyReturnSlots("Buy-Sell-Menu.Purchase-Item", "plugins/CustomCurrency/Menu-Layout.yml")
+        set {_Buy-Material} to SellanBuyReturnMaterial("Buy-Sell-Menu.Purchase-Item", "plugins/CustomCurrency/Menu-Layout.yml")
+        set {_Buy-Name} to yaml value "Buy-Lore.Name" from "plugins/CustomCurrency/Config.yml"
+        set {_Buy-Lore::*} to yaml list "Buy-Lore.Lore" from "plugins/CustomCurrency/Config.yml"
+        set {_n} to coloured {_Buy-Name}
+        replace "{item_amount}" with "1" in {_Buy-Lore::*}
+        replace "{buy_price}" with "%{_buy}%" in {_Buy-Lore::*}
+        set slot {_Buy-Slots::*} of {-BuyanSell::%{_p}'s uuid%} to {_Buy-Material} named "%{_n}%" with lore coloured {_Buy-Lore::*}
+
+    loop {_Cancel::*}:
+        set {_Cancel-Slots::*} to SellanBuyReturnSlots("Buy-Sell-Menu.Cancel-Purchase", "plugins/CustomCurrency/Menu-Layout.yml")
+        set {_Cancel-Material} to SellanBuyReturnMaterial("Buy-Sell-Menu.Cancel-Purchase", "plugins/CustomCurrency/Menu-Layout.yml")
+        set {_Cancel-Name} to yaml value "Cancel-Lore.Name" from "plugins/CustomCurrency/Config.yml"
+        set {_Cancel-Lore::*} to yaml list "Cancel-Lore.Lore" from "plugins/CustomCurrency/Config.yml"
+        set {_n} to coloured {_Cancel-Name}
+        set slot {_Cancel-Slots::*} of {-BuyanSell::%{_p}'s uuid%} to {_Cancel-Material} named "%{_n}%" with lore coloured {_Cancel-Lore::*}
+
+    set {_Item-Slot} to yaml value "Buy-Sell-Menu.Item-Placement.Slot" from "plugins/CustomCurrency/Menu-Layout.yml"
+    set slot {_Item-Slot} of {-BuyanSell::%{_p}'s uuid%} to {_item}
+#-----------------------------------------------#
+#░█████╗░███╗░░██╗  ░░░░░██╗░█████╗░██╗███╗░░██╗#
+#██╔══██╗████╗░██║  ░░░░░██║██╔══██╗██║████╗░██║#
+#██║░░██║██╔██╗██║  ░░░░░██║██║░░██║██║██╔██╗██║#
+#██║░░██║██║╚████║  ██╗░░██║██║░░██║██║██║╚████║#
+#╚█████╔╝██║░╚███║  ╚█████╔╝╚█████╔╝██║██║░╚███║#
+#░╚════╝░╚═╝░░╚══╝  ░╚════╝░░╚════╝░╚═╝╚═╝░░╚══╝#
+#-----------------------------------------------#
+on join:
+    Join_FirstJoin(player)
+
+
+#-----------------------------------------------------------------------#
+#░█████╗░░█████╗░███╗░░░███╗███╗░░░███╗░█████╗░███╗░░██╗██████╗░░██████╗#
+#██╔══██╗██╔══██╗████╗░████║████╗░████║██╔══██╗████╗░██║██╔══██╗██╔════╝#
+#██║░░╚═╝██║░░██║██╔████╔██║██╔████╔██║███████║██╔██╗██║██║░░██║╚█████╗░#
+#██║░░██╗██║░░██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚████║██║░░██║░╚═══██╗#
+#╚█████╔╝╚█████╔╝██║░╚═╝░██║██║░╚═╝░██║██║░░██║██║░╚███║██████╔╝██████╔╝#
+#░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░╚═════╝░#
+#-----------------------------------------------------------------------#
+command {@Main-Command} [<string>] [<offline player>] [<number>]:
+    aliases: {@Aliases}
+    trigger:
+        #█░█ █▀▀ █░░ █▀█
+        #█▀█ ██▄ █▄▄ █▀▀
+        if arg-1 isn't set:
+            if player has permission "customcurrency.admin":
+                set {_status} to yaml value "CustomCurreny-Shop" of "plugins/CustomCurrency/Config.yml"
+                if {_status} is true:
+                    send "&8&m+------------------<##44E0A2>&l✦✦✦&8&m------------------+" to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} add <player> <amount> &8&l⤜ &fThis will allow you to add {@Currency-Name} to player's account" to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} remove <player> <amount> &8&l⤜ &fThis will allow you to remove {@Currency-Name} to player's account." to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} shop &8&l⤜ &fThis will open up the {@Currency-Name} shop." to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} reload &8&l⤜ &fThis will allow reload the Custom Currency Skript." to player
+                    send "" to player
+                    send "&8&m+------------------<##44E0A2>&l✦✦✦&8&m------------------+" to player
+                else:
+                    send "&8&m+------------------<##44E0A2>&l✦✦✦&8&m------------------+" to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} add <player> <amount> &8&l⤜ &fThis will allow you to add {@Currency-Name} to player's account" to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} remove <player> <amount> &8&l⤜ &fThis will allow you to remove {@Currency-Name} to player's account." to player
+                    send "" to player
+                    send "<##44E0A2>{@Main-Command} reload &8&l⤜ &fThis will allow reload the Custom Currency Skript." to player
+                    send "" to player
+                    send "&8&m+------------------<##44E0A2>&l✦✦✦&8&m------------------+" to player
+            else:
+                send "&8&m+------------------<##44E0A2>&l✦✦✦&8&m------------------+" to player
+                send "" to player
+                send "<##44E0A2>{@Main-Command} shop &8&l⤜ &fThis will open up the {@Currency-Name} shop." to player
+                send "" to player
+                send "&8&m+------------------<##44E0A2>&l✦✦✦&8&m------------------+" to player
+
+        #▄▀█ █▀▄ █▀▄
+        #█▀█ █▄▀ █▄▀
+        if player has permission "customcurrency.add":
+            if arg-1 is "add" or "Add":
+                if arg-2 is set:
+                    if arg-3 is set:
+                        if arg-3 is a number:
+                            set {_u} to arg-2's uuid
+                            set {_n} to yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+                            add arg-3 to {_n}
+                            set yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml" to {_n}
+                            wait 1 tick
+                            save yaml "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+                            send "<##44E0A2> &l● {@Currency-Name} &8&l➤ <##44E0A2>%arg-3% &fhas been added to your account." to arg-2
+                    else:
+                        send "&c! Please add a number you wish to add to the player." to player
+                else:
+                    send "&c! Please add a player you wish to send {@Currency-Name} too." to player
+
+        
+       #█▀█ █▀▀ █▀▄▀█ █▀█ █░█ █▀▀
+       #█▀▄ ██▄ █░▀░█ █▄█ ▀▄▀ ██▄
+        if player has permission "customcurrency.remove":
+            if arg-1 is "remove" or "Remove":
+                if arg-2 is set:
+                    if arg-3 is set:
+                        if arg-3 is a number:
+                            set {_u} to arg-2's uuid
+                            set {_n} to yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+                            remove arg-3 from {_n}
+                            set yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml" to {_n}
+                            wait 1 tick
+                            save yaml "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+                            send "<##44E0A2> &l● {@Currency-Name} &8&l➤ <##44E0A2>%arg-3% &fhas been removed from your account." to arg-2
+                    else:
+                        send "&c! Please add a number you wish to remove to the player." to player
+                else:
+                    send "&c! Please add a player you wish to send {@Currency-Name} too." to player
+        
+        #█▀█ █▀▀ █░░ █▀█ ▄▀█ █▀▄
+        #█▀▄ ██▄ █▄▄ █▄█ █▀█ █▄▀
+        if player has permission "customcurrency.remove":
+            if arg-1 is "reload" or "Reload":
+                reload script "CustomCurrency.sk"
+                send "<##44E0A2> &l● CustomCurrency &8&l➤ &fYou have succesfully reload Custom Currency." to player
+
+        
+        #█▀ █░█ █▀█ █▀█
+        #▄█ █▀█ █▄█ █▀▀
+        if arg-1 is "shop" or "Shop":
+            open {-shop} to player
+
+
+
+
+#--------------------------------------------------------------------------------#
+#██╗███╗░░██╗██╗░░░██╗███████╗███╗░░██╗████████╗░█████╗░██████╗░██╗░░░██╗░██████╗#
+#██║████╗░██║██║░░░██║██╔════╝████╗░██║╚══██╔══╝██╔══██╗██╔══██╗╚██╗░██╔╝██╔════╝#
+#██║██╔██╗██║╚██╗░██╔╝█████╗░░██╔██╗██║░░░██║░░░██║░░██║██████╔╝░╚████╔╝░╚█████╗░#
+#██║██║╚████║░╚████╔╝░██╔══╝░░██║╚████║░░░██║░░░██║░░██║██╔══██╗░░╚██╔╝░░░╚═══██╗#
+#██║██║░╚███║░░╚██╔╝░░███████╗██║░╚███║░░░██║░░░╚█████╔╝██║░░██║░░░██║░░░██████╔╝#
+#╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░#
+#--------------------------------------------------------------------------------#
+on inventory click:
+    if event-inventory = {-shop}:
+        cancel event
+        set {_click} to index of event-slot
+        set {_category} to CategoryReturn({_click}, "Shops-Category", "plugins/CustomCurrency/Config.yml")
+        open {-shop::%{_category}%::Page-1} to player
+
+on inventory click:
+    set {_Category::*} to all yaml nodes "Shop-Category" from "plugins/CustomCurrency/Shop-Category.yml" to console
+    loop {_Category::*}:
+        set {_Pages::*} to all yaml nodes "Shop-Category.%loop-value%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+        loop {_Pages::*}:
+            if event-inventory = {-shop::%loop-value-1%::%loop-value-2%}:
+                cancel event
+                set {_click} to index of event-slot
+                set {_player-stats} to MainItemReturnSlot("Category-Menu.Player-Stats","plugins/CustomCurrency/Menu-Layout.yml")
+                set {_i} to event-item
+                set {_n} to name of event-item
+                set {_return-slot} to MainItemReturnSlot("Category-Menu.Return-Store","plugins/CustomCurrency/Menu-Layout.yml")
+                set {_back-slot} to MainItemReturnSlot("Category-Menu.Back-Page","plugins/CustomCurrency/Menu-Layout.yml")
+                set {_next-slot} to MainItemReturnSlot("Category-Menu.Next-Page","plugins/CustomCurrency/Menu-Layout.yml")
+                if {_i} = {_player-stats}:
+                    cancel event
+
+                if {_n} isn't "&6":
+                    if {_click} isn't {_return-slot} or {_back-slot} or {_next-slot} or {_player-stats}:
+                        set {_buy} to PriceReturn("%loop-value-1%.%loop-value-2%", "plugins/CustomCurrency/Shop-Category.yml", {_click}, "buy")
+                        set {-%player's uuid%::Buy} to PriceReturn("%loop-value-1%.%loop-value-2%", "plugins/CustomCurrency/Shop-Category.yml", {_click}, "buy")
+                        set {_ItemPrice::*} to all yaml nodes "Shop-Category.%loop-value-1%.%loop-value-2%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+                        loop {_ItemPrice::*}:
+                            set {_slot} to yaml value "Shop-Category.%loop-value-1%.%loop-value-2%.%loop-value-3%.slot" from "plugins/CustomCurrency/Shop-Category.yml"
+                            if {_slot} = {_click}:
+                                set {-%player's uuid%::Commands::*} to yaml list "Shop-Category.%loop-value-1%.%loop-value-2%.%loop-value-3%.commands" from "plugins/CustomCurrency/Shop-Category.yml"
+                        clear lore of {_i}
+                        registerItemShop({_i}, player, {_buy}, {_sell})
+                        open {-BuyanSell::%player's uuid%} to player
+
+                if {_click} = {_return-slot}:
+                    open {-shop} to player
+
+                if {_click} = {_next-slot}:
+                    set {_page} to loop-value-2
+                    replace "Page-" with "" in {_page}
+                    set {_p} to {_page} parsed as integer
+
+                    set {_LastPage::*} to all yaml nodes "Shop-Category.%loop-value-1%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+                    loop {_LastPage::*}:
+                        set {_lp} to last element of {_LastPage::*}
+                        stop loop
+
+                    replace "Page-" with "" in {_lp}
+                    set {_lpp} to {_lp} parsed as integer
+                    if {_p} is greater than or equal to 1:
+                        add 1 to {_p}
+                        play sound "item.book.page_turn" at volume 1 at pitch 2 to player
+                        open {-shop::%loop-value-1%::Page-%{_p}%} to player
+
+                    if {_p} is greater than {_lpp}:
+                        set {_FirstPage::*} to all yaml nodes "Shop-Category.%loop-value-1%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+                        loop {_FirstPage::*}:
+                            set {_fp} to first element of {_FirstPage::*}
+                            stop loop
+                        play sound "item.book.page_turn" at volume 1 at pitch 2 to player
+                        open {-shop::%loop-value-1%::%{_fp}%} to player
+
+                if {_click} = {_back-slot}:
+                    set {_page} to loop-value-2
+                    replace "Page-" with "" in {_page}
+                    set {_p} to {_page} parsed as integer
+                    if {_p} is greater than or equal to 2:
+                        remove 1 from {_p}
+                        play sound "item.book.page_turn" at volume 1 at pitch 2 to player
+                        open {-shop::%loop-value-1%::Page-%{_p}%} to player
+                    else if {_p} is greater than or equal to 1:
+                        set {_LastPage::*} to all yaml nodes "Shop-Category.%loop-value-1%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+                        loop {_LastPage::*}:
+                            set {_lp} to last element of {_LastPage::*}
+                            stop loop
+                        play sound "item.book.page_turn" at volume 1 at pitch 2 to player
+                        open {-shop::%loop-value-1%::%{_lp}%} to player
+                        cancel event
+on inventory click:
+    if event-inventory = {-BuyanSell::%player's uuid%}:
+        cancel event
+        set {_click} to index of event-slot
+        set {_Item-Slot} to yaml value "Buy-Sell-Menu.Item-Placement.Slot" from "plugins/CustomCurrency/Menu-Layout.yml"
+        set {_Buy::*} to all yaml nodes "Buy-Sell-Menu.Purchase-Item" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+        set {_Cancel::*} to all yaml nodes "Buy-Sell-Menu.Purchase-Item" from "plugins/CustomCurrency/Menu-Layout.yml" to console
+        set {_in} to slot {_Item-Slot} of player's current inventory
+        reset name of {_in}
+        set {_item} to {_in}
+        set {_Buy-Slots::*} to SellanBuyReturnSlots("Buy-Sell-Menu.Purchase-Item", "plugins/CustomCurrency/Menu-Layout.yml")
+        set {_Cancel-Slots::*} to SellanBuyReturnSlots("Buy-Sell-Menu.Cancel-Purchase", "plugins/CustomCurrency/Menu-Layout.yml")
+        loop {_Buy::*}:
+            loop {_Buy-Slots::*}:
+                set {_Buy-Material} to SellanBuyReturnMaterial("Buy-Sell-Menu.Purchase-Item", "plugins/CustomCurrency/Menu-Layout.yml")
+                if {_click} = loop-value-2:
+                    if event-item = {_Buy-Material}:
+                        set {_u} to player's uuid
+                        set {_n} to yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+                        if {_n} is less than {-%player's uuid%::Buy}:
+                            send "<##44E0A2> &l● {@Currency-Name} Shops &8&l▪ &7You cannot afford to purchase this."
+                            play sound "ENTITY_VILLAGER_NO" at volume 1 at pitch 2 to player
+                            stop
+                        else:
+                            set {_text} to "<##44E0A2> &l● {@Currency-Name} Shops &8&l▪ &7You have purchased <##44E0A2>{amount}x&7 of <##44E0A2>{item} &7for <##44E0A2>${price} {@Currency-Name} &7from the shop!"
+                            replace "{amount}" with "1" in {_text}
+                            replace "{item}" with "%{_item}%" in {_text}
+                            replace "{price}" with "%{-%player's uuid%::Buy}%" in {_text}
+                            remove {-%player's uuid%::Buy} from {_n}
+                            set yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml" to {_n}
+                            save yaml "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+                            send "%{_text}%" to player
+                            play sound "ENTITY_PLAYER_LEVELUP" at volume 1 at pitch 2 to player
+                            set {_amount} to size of {-%player's uuid%::Commands::*}
+                            if {_amount} is greater than 0:
+                                loop {-%player's uuid%::Commands::*}:
+                                    set {_c} to loop-value-3
+                                    if {_c} contains "{player}":
+                                        replace "{player}" with "%player%" in {_c}
+                                        execute console command "%{_c}%"
+                                        close player's inventory
+                                    else:
+                                        execute console command "%{_c}%"
+                                        close player's inventory
+                            else:
+                                give {_item} to player
+                                close player's inventory
+                            stop
+
+        loop {_Cancel::*}:
+            loop {_Cancel-Slots::*}:
+                set {_Cancel-Material} to SellanBuyReturnMaterial("Buy-Sell-Menu.Cancel-Purchase", "plugins/CustomCurrency/Menu-Layout.yml")
+                if {_click} = loop-value-2:
+                    if event-item = {_Cancel-Material}:
+                        open {-shop} to player
+        set {_return-slot} to yaml value "Buy-Sell-Menu.Return-Store.Slot" from "plugins/CustomCurrency/Menu-Layout.yml"
+        if {_click} = {_return-slot}:
+            open {-shop} to player
+
+on inventory open:
+    set {_Category::*} to all yaml nodes "Shop-Category" from "plugins/CustomCurrency/Shop-Category.yml" to console
+    loop {_Category::*}:
+        set {_Pages::*} to all yaml nodes "Shop-Category.%loop-value%" from "plugins/CustomCurrency/Shop-Category.yml" to console
+        loop {_Pages::*}:
+            if event-inventory = {-shop::%loop-value-1%::%loop-value-2%}:
+                set {_item} to PlayerBalanceItem("Store-Menu-Items.Player-Balance", "plugins/CustomCurrency/Config.yml", player)
+                set {_player-slot} to MainItemReturnSlot("Category-Menu.Player-Stats","plugins/CustomCurrency/Menu-Layout.yml")
+                set slot {_player-slot} of {-shop::%loop-value-1%::%loop-value-2%} to {_item}
+
+on inventory close:
+    if event-inventory = {-BuyanSell::%player's uuid%}:
+        wait 1 tick
+        clear {-BuyanSell::%player's uuid%}
+        clear {-%player's uuid%::Buy}
+        clear {-%player's uuid%::Sell}
+        clear {-%player's uuid%::Commands::*}
+#-----------------------------------------------------------------------------------------------#
+#████████╗░█████╗░██████╗░  ░█████╗░░█████╗░███╗░░░███╗██████╗░██╗░░░░░███████╗████████╗███████╗#
+#╚══██╔══╝██╔══██╗██╔══██╗  ██╔══██╗██╔══██╗████╗░████║██╔══██╗██║░░░░░██╔════╝╚══██╔══╝██╔════╝#
+#░░░██║░░░███████║██████╦╝  ██║░░╚═╝██║░░██║██╔████╔██║██████╔╝██║░░░░░█████╗░░░░░██║░░░█████╗░░#
+#░░░██║░░░██╔══██║██╔══██╗  ██║░░██╗██║░░██║██║╚██╔╝██║██╔═══╝░██║░░░░░██╔══╝░░░░░██║░░░██╔══╝░░#
+#░░░██║░░░██║░░██║██████╦╝  ╚█████╔╝╚█████╔╝██║░╚═╝░██║██║░░░░░███████╗███████╗░░░██║░░░███████╗#
+#░░░╚═╝░░░╚═╝░░╚═╝╚═════╝░  ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚══════╝╚══════╝░░░╚═╝░░░╚══════╝#
+#-----------------------------------------------------------------------------------------------#
+on tab complete for "{@Main-Command}":
+    if event-player has permission "customcurrency.admin":
+        set {_status} to yaml value "CustomCurreny-Shop" of "plugins/CustomCurrency/Config.yml"
+        if {_status} is true:
+            set tab completions for position 1 to "shop", "add", "remove" and "reload"
+        else:
+            set tab completions for position 1 to "add", "remove" and "reload"
+    else:
+        set {_status} to yaml value "CustomCurreny-Shop" of "plugins/CustomCurrency/Config.yml"
+        if {_status} is true:
+            set tab completions for position 1 to "shop"
+
+
+
+#------------------------------------------------------------------------------------------------#
+#██████╗░██╗░░░░░░█████╗░░█████╗░███████╗██╗░░██╗░█████╗░██╗░░░░░██████╗░███████╗██████╗░░██████╗#
+#██╔══██╗██║░░░░░██╔══██╗██╔══██╗██╔════╝██║░░██║██╔══██╗██║░░░░░██╔══██╗██╔════╝██╔══██╗██╔════╝#
+#██████╔╝██║░░░░░███████║██║░░╚═╝█████╗░░███████║██║░░██║██║░░░░░██║░░██║█████╗░░██████╔╝╚█████╗░#
+#██╔═══╝░██║░░░░░██╔══██║██║░░██╗██╔══╝░░██╔══██║██║░░██║██║░░░░░██║░░██║██╔══╝░░██╔══██╗░╚═══██╗#
+#██║░░░░░███████╗██║░░██║╚█████╔╝███████╗██║░░██║╚█████╔╝███████╗██████╔╝███████╗██║░░██║██████╔╝#
+#╚═╝░░░░░╚══════╝╚═╝░░╚═╝░╚════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚══════╝╚═════╝░╚══════╝╚═╝░░╚═╝╚═════╝░#
+#------------------------------------------------------------------------------------------------#
+on placeholderapi placeholder request for the prefix "CustomCurrency":
+    if the identifier is "Balance":
+        set {_u} to player's uuid
+        set {_n} to yaml value "Player.Currency" of "plugins/CustomCurrency/PlayerData/%{_u}%.yml"
+        set {_bal} to {_n}
+        set the result to "%{_bal}%"
+
+#-------------------------------------------------------------------------------------------------------------------------------#  
+#░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░░░░░██╗██╗░░░██╗░█████╗░███╗░░░███╗██╗░░░░░░░░░██╗██╗░░░░░░█████╗░░█████╗░██████╗░#
+#██╔══██╗██╔══██╗████╗░██║██╔════╝██║██╔════╝░░░░██╔╝╚██╗░██╔╝██╔══██╗████╗░████║██║░░░░░░░░██╔╝██║░░░░░██╔══██╗██╔══██╗██╔══██╗#
+#██║░░╚═╝██║░░██║██╔██╗██║█████╗░░██║██║░░██╗░░░██╔╝░░╚████╔╝░███████║██╔████╔██║██║░░░░░░░██╔╝░██║░░░░░██║░░██║███████║██║░░██║#
+#██║░░██╗██║░░██║██║╚████║██╔══╝░░██║██║░░╚██╗░██╔╝░░░░╚██╔╝░░██╔══██║██║╚██╔╝██║██║░░░░░░██╔╝░░██║░░░░░██║░░██║██╔══██║██║░░██║#
+#╚█████╔╝╚█████╔╝██║░╚███║██║░░░░░██║╚██████╔╝██╔╝░░░░░░██║░░░██║░░██║██║░╚═╝░██║███████╗██╔╝░░░███████╗╚█████╔╝██║░░██║██████╔╝#
+#░╚════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░░░░╚═╝░╚═════╝░╚═╝░░░░░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░░░╚══════╝░╚════╝░╚═╝░░╚═╝╚═════╝░#
+#-------------------------------------------------------------------------------------------------------------------------------#
+on load:
+    set {_at the top::*} to "░█████╗░██╗░░░██╗░██████╗████████╗░█████╗░███╗░░░███╗░█████╗░██╗░░░██╗██████╗░██████╗░███████╗███╗░░██╗░█████╗░██╗░░░██╗####" and "██╔══██╗██║░░░██║██╔════╝╚══██╔══╝██╔══██╗████╗░████║██╔══██╗██║░░░██║██╔══██╗██╔══██╗██╔════╝████╗░██║██╔══██╗╚██╗░██╔╝####" and "██║░░╚═╝██║░░░██║╚█████╗░░░░██║░░░██║░░██║██╔████╔██║██║░░╚═╝██║░░░██║██████╔╝██████╔╝█████╗░░██╔██╗██║██║░░╚═╝░╚████╔╝░####" and "██║░░██╗██║░░░██║░╚═══██╗░░░██║░░░██║░░██║██║╚██╔╝██║██║░░██╗██║░░░██║██╔══██╗██╔══██╗██╔══╝░░██║╚████║██║░░██╗░░╚██╔╝░░####" and "╚█████╔╝╚██████╔╝██████╔╝░░░██║░░░╚█████╔╝██║░╚═╝░██║╚█████╔╝╚██████╔╝██║░░██║██║░░██║███████╗██║░╚███║╚█████╔╝░░░██║░░░####" and "░╚════╝░░╚═════╝░╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚═╝░╚════╝░░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝░░╚══╝░╚════╝░░░░╚═╝░░░####" and "------------------------------------------------------------------------####" and "                             Author: MrErrors                           ####" and "                              Version: 1.0.1                            ####" and "                           Discord: LostPanda##7778                       ####" and "------------------------------------------------------------------------####"
+    if new File("plugins/CustomCurrency/Config.yml").exists() is false:
+        download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Config.yml" and store it inside "plugins/CustomCurrency/Config.yml"
+        wait 2 ticks
+        load "plugins/CustomCurrency/Config.yml" as "plugins/CustomCurrency/Config.yml"
+        set the comments at the top of "plugins/CustomCurrency/Config.yml" to {_at the top::*}
+        save yaml "plugins/CustomCurrency/Config.yml"
+        message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating config.yml file!" to console
+    else:
+        message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Loading config.yml file!" to console
+        load "plugins/CustomCurrency/Config.yml" as "plugins/CustomCurrency/Config.yml"
+        wait 1 tick
+        set {_status} to yaml value "CustomCurreny-Shop" of "plugins/CustomCurrency/Config.yml"
+        if {_status} is true:
+            suppress the variable save warnings
+            if new File("plugins/CustomCurrency/Menu-Layout.yml").exists() is false:
+                download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Menu-Layout.yml" and store it inside "plugins/CustomCurrency/Menu-Layout.yml"
+                wait 2 ticks
+                load "plugins/CustomCurrency/Menu-Layout.yml" as "plugins/CustomCurrency/Menu-Layout.yml"
+                set the comments at the top of "plugins/CustomCurrency/Menu-Layout.yml" to {_at the top::*}
+                save yaml "plugins/CustomCurrency/Menu-Layout.yml"
+                message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating Menu-Layout.yml file!" to console
+            else:
+                load "plugins/CustomCurrency/Menu-Layout.yml" as "plugins/CustomCurrency/Menu-Layout.yml"
+
+            if new File("plugins/CustomCurrency/Shop-Category.yml").exists() is false:
+                download file from "https://raw.githubusercontent.com/Mr-Errors/CustomCurrency/main/Shop-Category.yml" and store it inside "plugins/CustomCurrency/Shop-Category.yml"
+                wait 2 ticks
+                load "plugins/CustomCurrency/Shop-Category.yml" as "plugins/CustomCurrency/Shop-Category.yml"
+                set the comments at the top of "plugins/CustomCurrency/Shop-Category.yml" to {_at the top::*}
+                save yaml "plugins/CustomCurrency/Shop-Category.yml"
+                message "<##44E0A2> &l● CustomCurrency &8&l➤ &7 Creating Shop-Category.yml file!" to console
+            else:
+                load "plugins/CustomCurrency/Shop-Category.yml" as "plugins/CustomCurrency/Shop-Category.yml"
+            wait 1 tick
+            registerShopMenu()
+            registerShopCategories()
