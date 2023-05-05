@@ -20,7 +20,7 @@ Store-Menu-Items:
         Display-Item:
             Material: player skull
             Name: "&8● <#1DE682>&l{displayname}"
-            NBT: ''
+            NBT: false
             Lore:
             - <#6A6A6A>Information
             - ''
@@ -29,7 +29,7 @@ Store-Menu-Items:
         Display-Item:
             Material: spruce door
             Name: "&8● <#FF2626>&lCLOSE MENU"
-            NBT: ''
+            NBT: false
             Lore:
             - <#6A6A6A>Interactive Item
             - ''
@@ -38,7 +38,7 @@ Store-Menu-Items:
         Display-Item:
             Material: spruce door
             Name: "&8● <#5BF027>&lMAIN STORE"
-            NBT: ''
+            NBT: false
             Lore:
             - <#6A6A6A>Interactive Item
             - ''
@@ -47,13 +47,13 @@ Store-Menu-Items:
         Display-Item:
             Material: gray dye
             Name: "&8● <#27D2F0>&lPREVIOUS PAGE"
-            NBT: ''
+            NBT: false
             Lore: ''
     Next-Page:
         Display-Item:
             Material: gray dye
             Name: "&8● <#27D2F0>&lNEXT PAGE"
-            NBT: ''
+            NBT: false
             Lore: ''
 
 Shop-Lore:
@@ -83,7 +83,7 @@ Cancel-Lore:
     Lore:
     - <#6A6A6A>Information
     - ''
-    - "<#5BF027>&l(!) <#5BF027>Click to cancel purchase!"
+    - "<#FF2626>&l(!) <#FF2626>Click to cancel purchase!"
 
 Shops-Category:
     Commands:
